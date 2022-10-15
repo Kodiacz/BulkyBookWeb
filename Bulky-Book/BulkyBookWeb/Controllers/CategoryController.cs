@@ -75,12 +75,39 @@ namespace BulkyBookWeb.Controllers
 
             if (ModelState.IsValid)
             {
-                _dbContext.Add(obj);
+                _dbContext.Update(obj);
                 _dbContext.SaveChanges();
                 return RedirectToAction("Index", "Category");
             }
 
             return View(obj);
+        }
+
+        [HttpGet]
+        public IActionResult Delete(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+
+            var categoryFromDb = _dbContext.Categories.Find(id);
+            //var categoryFromDbFirst = _dbContext.Categories.FirstOrDefault(u => u.Id == id);
+            //var categoryFromDbSingle = _dbContext.Categories.SingleOrDefault(u => u.Id == id);
+
+            if (categoryFromDb == null)
+            {
+                return NotFound();
+            }
+
+            return View(categoryFromDb);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(string dd)
+        {
+            return View();
         }
     }
 }
