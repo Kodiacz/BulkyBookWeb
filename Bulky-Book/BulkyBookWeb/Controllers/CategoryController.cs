@@ -38,6 +38,9 @@ namespace BulkyBookWeb.Controllers
             {
                 _dbContext.Add(obj);
                 _dbContext.SaveChanges();
+
+                TempData["success"] = "Category created successfully";
+
                 return RedirectToAction("Index", "Category");
             }
 
@@ -77,6 +80,9 @@ namespace BulkyBookWeb.Controllers
             {
                 _dbContext.Update(obj);
                 _dbContext.SaveChanges();
+
+                TempData["success"] = "Category updated successfully";
+
                 return RedirectToAction("Index", "Category");
             }
 
@@ -103,7 +109,7 @@ namespace BulkyBookWeb.Controllers
             return View(categoryFromDb);
         }
 
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public IActionResult DeletePOST(int? id)
         {
@@ -116,6 +122,8 @@ namespace BulkyBookWeb.Controllers
 
             _dbContext.Categories.Remove(obj);
             _dbContext.SaveChanges();
+
+            TempData["success"] = "Category deleted successfully";
 
             return RedirectToAction("Index");
         }
